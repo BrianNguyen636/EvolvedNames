@@ -5,7 +5,8 @@ import java.util.Random;
 public class Genome {
     static final Character[] alpha = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N',
             'O','P','Q','R','S','T','U','V','W','X','Y','Z',' ','\'', '-'};
-    static final String target = "BRIAN NGUYEN";
+    static final String target = "PAULO  SERGIO  LICCIARDI \n" +
+            "MESSEDER BARRETO";
     List<Character> value;
     double theMutationRate;
     static Random random = new Random();
@@ -61,9 +62,11 @@ public class Genome {
         int L = Math.max(n,m);
         int f = Math.abs(m-n);
         for (int i = 0; i < L; i++) {
-            if (value.get(i) != target.charAt(i)) { //Also check for empty character
-                f++;
-            }
+            if (Math.min(n,m) > i) {
+                if (value.get(i) != target.charAt(i)) { //Also check for empty character
+                    f++;
+                }
+            } else f++;
         }
         return f;
     }

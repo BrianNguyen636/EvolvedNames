@@ -6,7 +6,12 @@ public class Main {
 
     public static void main(String[] args) {
 	// write your code here
-    crossoverTest();
+//    crossoverTest();
+        Population pop = new Population(100, 0.05);
+        while (pop.mostFit.fitness() != 0) {
+            System.out.println(pop.mostFit.toString());
+            pop.day();
+        }
 
     }
     /*

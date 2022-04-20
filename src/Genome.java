@@ -34,7 +34,26 @@ public class Genome {
         }
     }
     void crossover(Genome other) {
-
+        List<Character> cross = new LinkedList<>();
+        int index = Math.max(value.size(), other.value.size());
+        boolean empty = false;
+        for (int i = 0; i < index && !empty; i++) {
+            int rand = random.nextInt(2);
+            if (rand == 1) {
+                if (i < value.size()) {
+                    cross.add(value.get(i));
+                } else {
+                    empty = true;
+                }
+            } else {
+                if (i < other.value.size()) {
+                    cross.add(other.value.get(i));
+                } else {
+                    empty = true;
+                }
+            }
+        }
+        value = cross;
     }
     int fitness() {
         int n = target.length();
@@ -55,6 +74,9 @@ public class Genome {
         }
         return "Fitness: " + fitness() + " Gene: " + gene;
     }
+    /*
+    Rolls to check if to mutate.
+     */
     boolean rollMutate() {
         int rand = random.nextInt(100 + 1);
         return rand <= theMutationRate*100;

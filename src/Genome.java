@@ -12,7 +12,8 @@ public class Genome {
     static Random random = new Random();
 
     Genome(double mutationRate) {
-        value = List.of('A');
+        value = new LinkedList<>();
+        value.add('A');
         theMutationRate = mutationRate;
     }
     Genome(Genome gene) {
@@ -22,7 +23,7 @@ public class Genome {
     void mutate() {
         if (rollMutate()) {
             int index = random.nextInt(value.size());
-            value.set(index, alpha[random.nextInt(alpha.length)]);
+            value.add(index, alpha[random.nextInt(alpha.length)]);
         }
         if (rollMutate() && value.size() >= 2) {
             int index = random.nextInt(value.size());

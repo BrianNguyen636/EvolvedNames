@@ -12,6 +12,7 @@ public class Main {
             System.out.println(pop.mostFit.toString());
             pop.day();
         }
+        System.out.println(pop.mostFit);
 
     }
     /*

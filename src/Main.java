@@ -7,10 +7,12 @@ public class Main {
     public static void main(String[] args) {
 	// write your code here
 //    crossoverTest();
-        Population pop = new Population(100, 0.05);
+        Population pop = new Population(10, 0.05);
+        int gen = 0;
         while (pop.mostFit.fitness() != 0) {
-            System.out.println(pop.mostFit.toString());
+            gen++;
             pop.day();
+            System.out.println(gen + ": " + pop.mostFit.toString());
         }
         System.out.println(pop.mostFit);
 

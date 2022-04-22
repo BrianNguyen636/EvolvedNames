@@ -5,7 +5,7 @@ import java.util.Random;
 public class Genome {
     static final Character[] alpha = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N',
             'O','P','Q','R','S','T','U','V','W','X','Y','Z',' ','\'', '-'};
-    static final String target = "PAULO  SERGIO  LICCIARDI \n" +
+    static final String target = "PAULO SERGIO LICCIARDI \n" +
             "MESSEDER BARRETO";
     List<Character> value;
     double theMutationRate;
@@ -58,17 +58,37 @@ public class Genome {
         value = cross;
     }
     int fitness() {
-        int n = target.length();
-        int m = value.size();
-        int L = Math.max(n,m);
-        int f = Math.abs(m-n);
-        for (int i = 0; i < L; i++) {
-            if (Math.min(n,m) > i) {
-                if (value.get(i) != target.charAt(i)) { //Also check for empty character
-                    f++;
-                }
-            } else f++;
+        int n = value.size();
+        int m = target.length();
+        int[][] D = new int[n+1][m+1];
+        for (int row = 0; row < n+1; row++) {
+            D[row][0] = row;
+            for (int col = 0; col < m+1; col++) {
+                D[0][col] = col;
+            }
         }
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                if (value.get(i-1) == target.charAt(j-1)) {
+                    D[i][j] = D[i-1][j-1];
+                }
+                else {
+                    int min = Math.min(D[i-1][j] + 1, D[i][j-1] + 1);
+                    D[i][j] = Math.min(min, D[i-1][j-1] + 1);
+                }
+            }
+        }
+        int f = D[n][m] + (Math.abs(n-m) + 1)/2;
+
+//        int L = Math.max(n,m);
+//        int f = Math.abs(m-n);
+//        for (int i = 0; i < L; i++) {
+//            if (i < n && i < m) {
+//                if (value.get(i) != target.charAt(i)) { //Also check for empty character
+//                    f++;
+//                }
+//            } else f++;
+//        }
         return f;
     }
     public String toString() {

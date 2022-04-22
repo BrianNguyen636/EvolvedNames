@@ -15,13 +15,6 @@ public class Population {
     }
 
     void day() {
-//        Genome min = populace.get(0);
-//        for (Genome gene : populace) {
-//            if (gene.fitness() < min.fitness()) {
-//                min = gene;
-//            }
-//        }
-//        mostFit = min;
         Random random = new Random();
         int size = populace.size();
         populace.sort(new fitnessComparator());

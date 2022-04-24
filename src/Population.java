@@ -26,8 +26,8 @@ public class Population {
         int size = populace.size();
         populace.sort(new fitnessComparator());
         mostFit = populace.get(populace.size()-1);
-        for (int i = 0; i < size / 2; i++) {
-            populace.remove(0);
+        if (size / 2 > 0) {
+            populace.subList(0, size / 2).clear();
         }
         while (populace.size() != size) {
             int rand = random.nextInt(2);

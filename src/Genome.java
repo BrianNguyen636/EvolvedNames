@@ -6,7 +6,7 @@ public class Genome {
     static final Character[] alpha = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N',
             'O','P','Q','R','S','T','U','V','W','X','Y','Z',' ','\'', '-'};
     static final String target = "PAULO SERGIO LICCIARDI MESSEDER BARRETO";
-    List<Character> value = new LinkedList<>();;
+    List<Character> value = new LinkedList<>();
     double theMutationRate;
     static Random random = new Random();
 
@@ -15,9 +15,7 @@ public class Genome {
         theMutationRate = mutationRate;
     }
     Genome(Genome gene) {
-        for (Character c : gene.value) {
-            this.value.add(c);
-        }
+        this.value.addAll(gene.value);
         theMutationRate = gene.theMutationRate;
     }
     /*
@@ -49,7 +47,7 @@ public class Genome {
         int index = Math.max(value.size(), other.value.size());
         boolean empty = false;
         for (int i = 0; i < index && !empty; i++) {
-            int rand = random.nextInt(2);
+            int rand = random.nextInt(2); //50/50 chance
             if (rand == 1) {
                 if (i < value.size()) {
                     cross.add(value.get(i));
@@ -73,34 +71,12 @@ public class Genome {
         int L = Math.max(n,m);
         int f = Math.abs(m-n);
         for (int i = 0; i < L; i++) {
-            if (i < n && i < m) {
-                if (value.get(i) != target.charAt(i)) { //Also check for empty character
+            if (i < n && i < m) { //if within the length
+                if (value.get(i) != target.charAt(i)) {
                     f++;
                 }
             } else f++;
         }
-
-//        int[][] D = new int[n+1][m+1];
-//        for (int row = 0; row < n+1; row++) {
-//            D[row][0] = row;
-//        }
-//        for (int col = 0; col < m+1; col++) {
-//            D[0][col] = col;
-//        }
-//
-//        for (int i = 1; i < n; i++) {
-//            for (int j = 1; j < m; j++) {
-//                if (value.get(i-1) == target.charAt(j-1)) {
-//                    D[i][j] = D[i-1][j-1];
-//                }
-//                else {
-//                    int min = Math.min(D[i-1][j] + 1, D[i][j-1] + 1);
-//                    D[i][j] = Math.min(min, D[i-1][j-1] + 1);
-//                }
-//            }
-//        }
-//        int f = D[n][m] + (Math.abs(n-m) + 1)/2;
-
         return f;
     }
     public String toString() {

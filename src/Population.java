@@ -3,6 +3,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+/*
+ @Author Brian Nguyen
+ */
+
 public class Population {
     Genome mostFit;
     List<Genome> populace = new LinkedList<>();

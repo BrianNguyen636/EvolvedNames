@@ -1,82 +1,79 @@
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 public class Main {
 
     public static void main(String[] args) {
+        runTests();
 
-//        Population pop = new Population(100, 0.05);
-//        int gen = 0;
-//        while (pop.mostFit.fitness() != 0) {
-//            gen++;
-//            pop.day();
-//            System.out.println(gen + ": " + pop.mostFit.toString());
-//        }
-//        System.out.println(pop.mostFit);
+        long start = System.currentTimeMillis();
 
-        System.out.println("TESTING CROSSOVER, CROSSING 'WATAME' with 'TSUNOMAKI'");
-        crossoverTest();
-        System.out.println("TESTING FITNESS ALGORITHM, TARGET: TSUNOMAKI WATAME");
-        fitnessTest("WATAMELON");
-        fitnessTest("A");
-        fitnessTest("TSUNOMAKI WATIME");
-        fitnessTest("TSUNOMAKI WATAME");
+        Population pop = new Population(100, 0.05);
+        int gen = 0;
+        while (pop.mostFit.fitness() != 0) {
+            gen++;
+            pop.day();
+            System.out.println("Gen " + gen + ": " + pop.mostFit.toString());
+        }
+        long end = System.currentTimeMillis();
+
+        System.out.println("Generations: " + gen);
+        System.out.println("Runtime: " + (end - start) + " milliseconds.");
     }
-    static void fitnessTest(String value) {
-        int n = value.length();
-        String target = "TSUNOMAKI WATAME";
-        int m = target.length();
-        int[][] D = new int[n+1][m+1];
-        for (int row = 0; row < n+1; row++) {
-            D[row][0] = row;
-            for (int col = 0; col < m+1; col++) {
-                D[0][col] = col;
-            }
-        }
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= m; j++) {
-                if (value.charAt(i-1) == target.charAt(j-1)) {
-                    D[i][j] = D[i-1][j-1];
-                }
-                else {
-                    int min = Math.min(D[i-1][j] + 1, D[i][j-1] + 1);
-                    D[i][j] = Math.min(min, D[i-1][j-1] + 1);
-                }
-            }
-        }
-        int f = D[n][m] + (Math.abs(n-m) + 1)/2;
-        System.out.println("Fitness of "+ value + ": " + f);
-    }
-    /*
-    Slightly edited code from Genome's crossover for testing.
-     */
-    static void crossoverTest() {
-        List<Character> other = List.of('W','A','T','A','M','E');
-        Random random = new Random();
-        List<Character> cross = new LinkedList<>();
-        List<Character> value = List.of('T','S','U','N','O','M','A','K','I');
-        int index = Math.max(value.size(), other.size());
-        boolean empty = false;
-        for (int i = 0; i < index && !empty; i++) {
-            int rand = random.nextInt(2);
-            if (rand == 1) {
-                if (i < value.size()) {
-                    cross.add(value.get(i));
-                } else {
-                    empty = true;
-                }
-            } else {
-                if (i < other.size()) {
-                    cross.add(other.get(i));
-                } else {
-                    empty = true;
-                }
-            }
-        }
-        for (Character c : cross) {
-            System.out.print(c);
+    static void runTests() {
+        System.out.println("Running tests...");
+        System.out.println("Testing crossover, Crossing 'XXXXXX' with 'OOOOOO'");
+        for (int i = 0; i < 5; i++) {
+            crossoverTest();
         }
         System.out.println();
+        System.out.println("Testing Fitness algorithm...");
+        fitnessTest();
+        System.out.println();
+        mutateTest();
+        populationTest();
+    }
+
+    static void populationTest() {
+        System.out.println("Testing Day()...");
+        List<Genome> test = new LinkedList<>();
+        for (int i = 0; i < 10; i++) {
+            if (i < 3) test.add(new Genome("PAULO xxxxxx xxxxxxxxx xxxxxxxx xxxxxxx"));
+            else if (i < 7) test.add(new Genome("TEST TEST TEST"));
+            else test.add(new Genome("xxxxx xxxxxx xxxxxxxxx xxxxxxxx xxxxxxx"));
+        }
+        Population testPop = new Population(test);
+        System.out.println(testPop.mostFit);
+        System.out.println("Day passes...");
+        testPop.day();
+        System.out.println(testPop.mostFit);
+        for (int i = 0; i < 4; i++) {
+            System.out.println("Day passes...");
+            testPop.day();
+            System.out.println(testPop.mostFit);
+        }
+    }
+
+    static void mutateTest() {
+        System.out.println("Testing mutations, with \"TESTING MUTATIONS\"");
+        for (int i = 0; i < 5; i++) {
+            Genome test = new Genome("TESTING MUTATIONS");
+            test.mutate();
+            System.out.println(test);
+        }
+    }
+    static void fitnessTest() {
+        Genome testA = new Genome("A");
+        System.out.println("Fitness of A: " + testA.fitness());
+        Genome testB = new Genome("PAULO SERGIO LICCIARDI MESSEDER BARRETO");
+        System.out.println("Fitness of target: " + testB.fitness());
+        Genome testC = new Genome("xxxxx xxxxxx xxxxxxxxx xxxxxxxx xxxxxxx");
+        System.out.println("Fitness of same length as target but wrong letters:" + testC.fitness());
+    }
+    static void crossoverTest() {
+        Genome test1 = new Genome("XXXXXX");
+        Genome test2 = new Genome("OOOOOO");
+        test1.crossover(test2);
+        System.out.println("Crossover: "+ test1);
     }
 }

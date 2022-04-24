@@ -13,6 +13,13 @@ public class Population {
         }
         mostFit = populace.get(0);
     }
+    /*
+    test constructor
+     */
+    Population(List<Genome> test) {
+        this.populace = test;
+        mostFit = populace.get(0);
+    }
 
     void day() {
         Random random = new Random();
@@ -20,13 +27,13 @@ public class Population {
         populace.sort(new fitnessComparator());
         mostFit = populace.get(populace.size()-1);
         for (int i = 0; i < size / 2; i++) {
-            populace.remove(i);
+            populace.remove(0);
         }
         while (populace.size() != size) {
             int rand = random.nextInt(2);
-            Genome clone = new Genome(populace.get(random.nextInt(populace.size())));
+            Genome clone = new Genome(populace.get(random.nextInt(size/2)));
             if (rand == 1) {
-                clone.crossover(populace.get(random.nextInt(populace.size())));
+                clone.crossover(populace.get(random.nextInt(size/2)));
             }
             clone.mutate();
             populace.add(clone);
